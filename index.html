@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description"  content="This is the examsdaily online test site for mock exams and free online exams for UPSC, SSC, BANK, TNPSC preparation" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--In Use-->
+    <script>window.MathJax = { MathML: { extensions: ["mml3.js", "content-mathml.js"]}};</script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./static/js/prefixfree-1.0.7.js" type="text/javascript" /></script>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="281176553760-78goki7ni419ccqfvfhi1hp6ol6vfj9j.apps.googleusercontent.com">
+    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <script  async defer src="https://apis.google.com/js/platform.js"
+    onload="this.onload=function(){};initClient()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()"
+    ></script>
+    <script>
+    function initClient() {
+      gapi.load('client:auth2', function(){
+        gapi.client.init({
+            // apiKey: 'YOUR_API_KEY',
+            // discoveryDocs: ["https://people.googleapis.com/$discovery/rest?version=v1"],
+            clientId: '281176553760-78goki7ni419ccqfvfhi1hp6ol6vfj9j.apps.googleusercontent.com',
+            scope: 'profile email',
+            // access_type: 'offline'
+        });
+      });
+    }
+    function handleSignInClick(event) {
+        // console.log("Event",event)
+        var id_token = event.getAuthResponse().id_token;
+        window.location.href = "#/account/google/"+id_token;
+    }
+    function handleSignOutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+        gapi.auth2.getAuthInstance().disconnect();
+      }
+  </script>
+    <title>ExamsDaily</title>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115769816-4"></script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag(){dataLayer.push(arguments);}
+   gtag('js', new Date());
+   gtag('config', 'UA-115769816-4');
+  </script>
+  <script>
+  function statusChangeCallback(response) {
+      // console.log('statusChangeCallback');
+      // console.log(response);
+      if (response.status === 'connected') {
+        testAPI();
+        // AccountApi.facebookStatus(response.authReponse.acessToken);
+      } else {
+        // document.getElementById('status').innerHTML = 'Please log ' +
+        //   'into this app.';
+      }
+    }
+    function checkLoginState() {
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    }
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '255217148681562',
+        cookie: true, // enable cookies to allow the server to access
+        xfbml: true, // parse social plugins on this page
+        version: 'v2.8' // use graph api version 2.8
+      });
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    };
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    function testAPI() {
+      // console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', {
+        fields: 'id,name,email,first_name,last_name,birthday,gender,picture'
+      }, function (response) {
+        // console.log('Successful login for: ' + response.name);
+        // document.getElementById('status').innerHTML =
+        //   'Thanks for logging in, ' + response.name + '!';
+      });
+    }
+  </script>
+</html>
+

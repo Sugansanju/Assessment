@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description"  content="This is the examsdaily online test site for mock exams and free online exams for UPSC, SSC, BANK, TNPSC preparation" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--In Use-->
+    <script>window.MathJax = { MathML: { extensions: ["mml3.js", "content-mathml.js"]}};</script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+    <meta name="google-signin-scope" content="profile email">
+    <!-- <meta name="google-signin-client_id" content="1035864682131-ftdphr236lt9dagdk7u1bmcrrpjkqiot.apps.googleusercontent.com"> -->
+    <meta name="google-signin-client_id" content="281176553760-78goki7ni419ccqfvfhi1hp6ol6vfj9j.apps.googleusercontent.com">
+    <!-- <script async defer src="https://apis.google.com/js/api.js"></script> -->
+
+    <script  async defer src="https://apis.google.com/js/platform.js"
+    onload="this.onload=function(){};handleClientLoad()"
+    onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+
+    <script>
+
+      function handleClientLoad() {
+        // Loads the client library and the auth2 library together for efficiency.
+        // Loading the auth2 library is optional here since `gapi.client.init` function will load
+        // it if not already loaded. Loading it upfront can save one network request.
+        gapi.load('client:auth2', initClient);
+      }
+
+      function initClient() {
+        // Initialize the client with API key and People API, and initialize OAuth with an
+        // OAuth 2.0 client ID and scopes (space delimited string) to request access.
+        gapi.client.init({
+            // apiKey: 'YOUR_API_KEY',
+            // discoveryDocs: ["https://people.googleapis.com/$discovery/rest?version=v1"],
+            clientId: '281176553760-78goki7ni419ccqfvfhi1hp6ol6vfj9j.apps.googleusercontent.com',
+            scope: 'profile email',
+            // access_type: 'offline'
+        }).then(function () {
+          // Listen for sign-in state changes.
+          // gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+          // Handle the initial sign-in state.
+          // updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+        });
+      }
+
+      // function updateSigninStatus(isSignedIn) {
+      //   // When signin status changes, this function is called.
+      //   // If the signin status is changed to signedIn, we make an API call.
+      //   if (isSignedIn) {
+      //     makeApiCall();
+      //   }
+      // }
+
+      function handleSignInClick(event) {
+        // Ideally the button should only show up after gapi.client.init finishes, so that this
+        // handler won't be called before OAuth is initialized.
+        gapi.auth2.getAuthInstance().signIn();
+        var id_token = event.getAuthResponse().id_token;
+        window.location.href = "#/account/activate/"+id_token;
+      }
+
+      function handleSignOutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+        gapi.auth2.getAuthInstance().disconnect();
+        // var auth2 = gapi.auth2.getAuthInstance()
+        // .then(()=>{
+        //   auth2.signOut().then(function () {
+        //       auth2.disconnect();
+        //     window.location.href="#/";
+        //       console.log('User signed out.');
+        //     });
+        //     auth2.disconnect();
+        // })
+        // .catch(()=>{
+        //   window.location.href="#/";
+        // });
+
+      }
+
+      // function makeApiCall() {
+      //   // Make an API call to the People API, and print the user's given name.
+      //   gapi.client.people.people.get({
+      //     'resourceName': 'people/me',
+      //     'requestMask.includeField': 'person.names'
+      //   }).then(function(response) {
+      //     console.log('Hello, ' + response.result.names[0].givenName);
+      //   }, function(reason) {
+      //     console.log('Error: ' + reason.result.error.message);
+      //   });
+      // }
+
+      function LoadOnce(){
+         window.location.reload();
+      }
+/*
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                  console.log('User signed out successfully From Dexter!!.');
+                });
+
+          }
+
+          function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+              auth2.disconnect();
+            window.location.href="#/";
+              console.log('User signed out.');
+            });
+            auth2.disconnect();
+          }
+*/
+
+      function onSignIn(googleUser) {
+          // Useful data for your client-side scripts:
+          var profile = googleUser.getBasicProfile();
+          // console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+          // console.log('Full Name: ' + profile.getName());
+          // console.log('Given Name: ' + profile.getGivenName());
+          // console.log('Family Name: ' + profile.getFamilyName());
+          // console.log("Image URL: " + profile.getImageUrl());
+          // console.log("Email: " + profile.getEmail());
+             console.log('Signed In As :' +profile.getEmail());
+
+          // The ID token you need to pass to your backend:
+          var id_token = googleUser.getAuthResponse().id_token;
+          window.location.href = "#/account/activate/"+id_token;
+
+          // window.location.href = "#/gverify";
+          //console.log("ID Token: " + id_token);
+
+          //document.getElementById("id").innerHTML=profile.getName();
+          // if(googleUser.getBasicProfile)
+
+
+          // var xhr = new XMLHttpRequest();
+          // xhr.open('POST', 'http://localhost:9090/candidate/google');
+          // xhr.setRequestHeader('Content-Type', 'application/json');
+          // xhr.onload = function() {
+          //   console.log('Signed in as: ' + xhr.responseText);
+          // };
+          // xhr.send('idtoken=' +id_token);
+
+
+
+          // var myUserEntity = {};
+          // myUserEntity.Id = profile.getId();
+          // myUserEntity.Name = profile.getName();
+
+          // //Store the entity object in sessionStorage where it will be accessible from all pages of your site.
+          // sessionStorage.setItem('myUserEntity',JSON.stringify(myUserEntity));
+
+          // //alert(profile.getName());
+          // if(sessionStorage.getItem('myUserEntity') == null){
+          //     //Redirect to login page, no user entity available in sessionStorage
+          //     window.location.href='#/login';
+          //   } else {
+          //     //User already logged in
+          //     var userEntity = {};
+          //     userEntity = JSON.parse(sessionStorage.getItem('myUserEntity'));
+          //     window.location.href = "#/gverify?token="+id_token;
+
+          //   }
+          }
+      </script>
+
+    <!--End of In Use -->
+
+    <!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>     -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>     -->
+
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML-full"></script>        -->
+
+<!--
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        config: ["MMLorHTML.js"],
+        jax: ["input/TeX","input/MathML","output/HTML-CSS","output/NativeMML"],
+        extensions: ["mml3.js", "content-mathml.js"],
+        TeX: {
+          extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+        }
+      });
+  </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>             -->
+
+
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>     -->
+
+    <!-- For xeditable -->
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+    -->
+
+    <title>ExamsDaily</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+  <!-- <script type="text/javascript">
+    MathJax.Hub.Configured()
+  </script>   -->
+  <script src="./static/js/prefixfree-1.0.7.js" type="text/javascript" />
+
+</html>
+
